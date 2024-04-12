@@ -9,9 +9,9 @@ pt = pickle.load(open('model/pt.pkl','rb'))
 books = pickle.load(open('model/books.pkl','rb'))
 similarity_scores = pickle.load(open('model/similarity_scores.pkl','rb'))
 
-app= Flask(__name__)
+application= Flask(__name__)
 
-@app.route('/')
+@application.route('/')
 def index():
 
     return render_template('index.html',
@@ -22,11 +22,11 @@ def index():
                            ratings=list(popular_df['avg_ratings'].values)
                            )
 
-@app.route('/recommend')
+@application.route('/recommend')
 def recommend_ui():
     return render_template('recommend.html')    
 
-@app.route('/recommend_books',methods=['post'])
+@application.route('/recommend_books',methods=['post'])
 def recommend():
     user_input = request.form.get('user_input')
     index = np.where(pt.index == user_input)[0][0]
@@ -48,5 +48,5 @@ def recommend():
     return render_template('recommend.html',data=data)
 
 if __name__=='__main__':
-    app.debug = True
-    app.run(port=5000)
+    application.debug = True
+    application.run()
